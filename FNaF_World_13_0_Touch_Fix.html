@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15152b">
+<title>FNaF World 13.0 – Touch Fix</title>
+<style>
+:root{color-scheme:dark;--bg:#111326;--panel:#202541;--panel2:#2c3358;--gold:#ffd166;--cyan:#6ee7f9;--pink:#ff7aa2;--green:#7ee787}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#292d55 0,#111326 65%);color:#f7f7ff;font:16px/1.45 system-ui,-apple-system,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:#171a30f2;border-bottom:1px solid #454b77;padding:10px 12px;backdrop-filter:blur(8px)}
+h1{font-size:clamp(20px,5vw,30px);margin:0 0 8px;color:var(--gold)}
+.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{background:#303657;border-radius:12px;padding:7px 10px;font-weight:700}
+main{max-width:850px;margin:auto;padding:14px 12px 40px}
+.panel{background:#202541;border:1px solid #424a75;border-radius:18px;padding:15px;margin:0 0 14px;box-shadow:0 8px 22px #0003}
+h2{font-size:21px;margin:0 0 8px;color:var(--cyan)}h3{margin:10px 0 5px}
+p{margin:7px 0 12px}.muted{color:#c1c8e6;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.btn{display:flex;align-items:center;justify-content:center;min-height:52px;width:100%;padding:11px 10px;border:2px solid #6572a9;border-radius:14px;background:#343d69;color:#fff;font-weight:750;text-align:center;text-decoration:none;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;font-size:16px}
+.btn:active{background:#515f99;transform:scale(.985)}.gold{background:#72551b;border-color:#d6ae4d}.pink{background:#66324f;border-color:#b65e8b}.green{background:#214c42;border-color:#4a9f82}.small{min-height:42px;font-size:14px}
+.page{display:none}.page.active{display:block}
+.character{font-size:42px;text-align:center;padding:8px}.team-card{background:#2b3152;border-radius:12px;padding:10px;text-align:center}
+.log{background:#14182b;border-radius:12px;padding:12px;min-height:52px;white-space:pre-wrap}
+footer{text-align:center;color:#aeb5d8;font-size:12px;padding:8px}
+@media(min-width:600px){.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ FNaF World 13.0 – Touch Fix</h1>
+  <div class="stats">
+    <div class="stat">🪙 FazCoins: <span id="coins">55</span></div>
+    <div class="stat">⭐ Level: <span id="level">1</span></div>
+    <div class="stat">⚡ Kraft: <span id="power">0</span></div>
+  </div>
+</header>
+<main>
+<section class="page active" id="home">
+ <div class="panel">
+  <h2>🗺️ Abenteuerkarte</h2>
+  <p>Wähle ein Gebiet aus. Tippe auf die großen Buttons.</p>
+  <div class="grid">
+   <button class="btn" data-go="forest">🌲 Fazbear-Wald</button>
+   <button class="btn" data-go="village">🏘️ Animatronic-Dorf</button>
+   <button class="btn" data-go="factory">🏭 Fazbear-Fabrik</button>
+   <button class="btn" data-go="lake">🌊 Echo-See</button>
+   <button class="btn" data-go="circus">🎪 Mystery-Zirkus</button>
+   <button class="btn" data-go="castle">🏰 Glitch-Schloss</button>
+  </div>
+ </div>
+ <div class="panel">
+  <h2>🎮 Spielmenü</h2>
+  <div class="grid">
+   <button class="btn" data-go="team">🐻 Team</button>
+   <button class="btn" data-go="battle">⚔️ Kampf</button>
+   <button class="btn" data-go="minigames">🕹️ Minispiele</button>
+   <button class="btn gold" data-go="shop">🛒 FazCoin-Shop</button>
+  </div>
+ </div>
+ <div class="panel"><h2>📜 Spielmeldung</h2><div class="log" id="homeLog">Willkommen! Wähle ein Gebiet und sammle FazCoins.</div></div>
+</section>
+
+<section class="page" id="forest"><div class="panel"><h2>🌲 Fazbear-Wald</h2><p>Zwischen den Bäumen raschelt etwas …</p><div class="grid"><button class="btn pink" data-action="fight">⚔️ Gegner suchen</button><button class="btn" data-go="battle">Kampfmenü</button><button class="btn" data-go="home">⬅️ Karte</button></div><div class="log" id="forestLog">Der Wald ist ruhig – vorerst.</div></div></section>
+<section class="page" id="factory"><div class="panel"><h2>🏭 Fazbear-Fabrik</h2><p>Die Maschinen summen. Vielleicht findest du Ersatzteile.</p><div class="grid"><button class="btn pink" data-action="fight">🤖 Fabrikgegner</button><button class="btn green" data-action="factoryReward">🔩 Teile sammeln (+15)</button><button class="btn" data-go="home">⬅️ Karte</button></div><div class="log" id="factoryLog">Die Fabrik ist bereit.</div></div></section>
+<section class="page" id="lake"><div class="panel"><h2>🌊 Echo-See</h2><p>Das Wasser glitzert geheimnisvoll.</p><div class="grid"><button class="btn green" data-action="lakeReward">🎣 Schatz suchen (+20)</button><button class="btn pink" data-action="fight">👾 Seegegner</button><button class="btn" data-go="home">⬅️ Karte</button></div><div class="log" id="lakeLog">Ein leises Echo hallt über den See.</div></div></section>
+<section class="page" id="circus"><div class="panel"><h2>🎪 Mystery-Zirkus</h2><p>Die Lichter blinken. Eine Herausforderung wartet.</p><div class="grid"><button class="btn pink" data-action="fight">🎭 Zirkusgegner</button><button class="btn green" data-go="minigames">🎯 Herausforderung</button><button class="btn" data-go="home">⬅️ Karte</button></div></div></section>
+<section class="page" id="castle"><div class="panel"><h2>🏰 Glitch-Schloss</h2><p>Ein mächtiger Gegner bewacht das Schloss.</p><div class="grid"><button class="btn pink" data-action="boss">👑 Bosskampf</button><button class="btn" data-go="home">⬅️ Karte</button></div><div class="log" id="castleLog">Warnung: Hier sind Gegner besonders stark.</div></div></section>
+
+<section class="page" id="team"><div class="panel"><h2>🐻 Dein Team</h2><p>Tippe Figuren an, um sie für dein Team auszuwählen. Maximal vier Figuren.</p><div class="grid">
+ <button class="btn" data-character="Freddy">🐻 Freddy <span class="muted">🟤</span></button>
+ <button class="btn" data-character="Bonnie">🐰 Bonnie <span class="muted">🟣</span></button>
+ <button class="btn" data-character="Chica">🐥 Chica <span class="muted">🟡</span></button>
+ <button class="btn" data-character="Foxy">🦊 Foxy <span class="muted">🔴</span></button>
+ </div><h3>Aktuelle Auswahl</h3><div id="teamList" class="grid three"></div><div class="grid"><button class="btn green" data-action="heal">💚 Team heilen (10 Coins)</button><button class="btn" data-go="home">⬅️ Zur Karte</button></div><div class="log" id="teamLog">Wähle deine Kämpfer!</div></div></section>
+
+<section class="page" id="battle"><div class="panel"><h2>⚔️ Kampf-Arena</h2><p>Ein Gegner erscheint! Wähle eine Aktion. Ein Sieg bringt FazCoins und Erfahrung.</p><div class="team-card"><div class="character" id="enemyIcon">👾</div><strong id="enemyName">Glitchling</strong><div id="enemyHp">Gegner-Energie: 100</div></div><h3>Deine Aktionen</h3><div class="grid">
+ <button class="btn pink" data-action="attack">⚔️ Angriff</button>
+ <button class="btn" data-action="pizza">🍕 Pizza Roller</button>
+ <button class="btn" data-action="cheese">🧀 Heißer Käse</button>
+ <button class="btn" data-action="bonnieBass">🎸 Bonnie Bass</button>
+ <button class="btn" data-action="foxyStorm">🌪️ Foxy-Sturm</button>
+ <button class="btn green" data-action="heal">💚 Heilen (10 Coins)</button>
+ </div><div class="log" id="battleLog">Der Kampf beginnt. Viel Glück!</div><div class="grid" style="margin-top:10px"><button class="btn gold" data-action="newEnemy">🔄 Neuer Gegner</button><button class="btn" data-go="home">⬅️ Fliehen zur Karte</button></div></div></section>
+
+<section class="page" id="minigames"><div class="panel"><h2>🕹️ Minispiele</h2><p>Jedes Minispiel verlangt eine Auswahl. Richtige Antworten geben FazCoins.</p><h3>🍕 Pizza-Sammeln</h3><p>Welche Pizza ist die echte? Wähle Käsepizza!</p><div class="grid"><button class="btn" data-action="pizzaWrong">🥒 Gurkenpizza</button><button class="btn green" data-action="pizzaWin">🍕 Käsepizza</button></div><h3>🎵 Bonnie Beat</h3><p>Merke dir den Beat: <strong>⬆️ ➡️ ⬇️</strong> — tippe die richtige Richtung.</p><div class="grid three"><button class="btn" data-action="beatWrong">⬅️ Links</button><button class="btn green" data-action="beatWin">⬆️ Oben</button><button class="btn" data-action="beatWrong">⬇️ Unten</button></div><h3>🦊 Foxys Schatz</h3><p>Der Schatz liegt in der mittleren Kiste.</p><div class="grid three"><button class="btn" data-action="boxWrong">📦 Links</button><button class="btn gold" data-action="boxWin">🎁 Mitte</button><button class="btn" data-action="boxWrong">📦 Rechts</button></div><div class="log" id="miniLog">Viel Erfolg bei den Minispielen!</div><button class="btn" style="margin-top:10px" data-go="home">⬅️ Zur Karte</button></div></section>
+
+<section class="page" id="village"><div class="panel"><h2>🏘️ Animatronic-Dorf</h2><p>Die Bewohner helfen dir, wenn du etwas Zeit mit ihnen verbringst.</p><div class="grid"><button class="btn green" data-action="villageReward">🤝 Helfen (+20 Coins)</button><button class="btn gold" data-go="shop">🛒 Zum Shop</button><button class="btn" data-go="home">⬅️ Zur Karte</button></div><div class="log" id="villageLog">Freddy winkt dir zu.</div></div></section>
+
+<section class="page" id="shop"><div class="panel"><h2>🛒 FazCoin-Shop</h2><p>Kontostand: <strong><span id="shopCoins">55</span> FazCoins</strong></p><div class="grid">
+ <button class="btn gold" data-buy="power">⚡ Kraft-Upgrade – 40</button>
+ <button class="btn gold" data-buy="level">⭐ Level-Training – 60</button>
+ <button class="btn gold" data-buy="heal">💚 Team-Heilung – 25</button>
+ <button class="btn" data-go="home">⬅️ Zur Karte</button>
+ </div><div class="log" id="shopLog">Deine Einkäufe werden vom gleichen FazCoin-Konto abgezogen.</div></div></section>
+<footer>Fan-Prototyp • Speichert den Spielstand in diesem Browser, sofern lokaler Speicher verfügbar ist.</footer>
+</main>
+<script>
+(() => {
+ const defaults={coins:55,level:1,power:0,team:["Freddy","Bonnie"],wins:0};
+ let state;
+ try { state=Object.assign({},defaults,JSON.parse(localStorage.getItem("fnaw13save")||"{}")); } catch(e) { state={...defaults}; }
+ let enemy={name:"Glitchling",icon:"👾",hp:100,max:100};
+ const $=id=>document.getElementById(id);
+ function save(){try{localStorage.setItem("fnaw13save",JSON.stringify(state));}catch(e){}}
+ function message(id,msg){const el=$(id);if(el)el.textContent=msg;const home=$("homeLog");if(home)home.textContent=msg;}
+ function render(){
+  $("coins").textContent=state.coins;$("shopCoins").textContent=state.coins;
+  $("level").textContent=state.level;$("power").textContent=state.power;
+  $("enemyName").textContent=enemy.name;$("enemyIcon").textContent=enemy.icon;
+  $("enemyHp").textContent="Gegner-Energie: "+Math.max(0,enemy.hp);
+  $("teamList").innerHTML="";
+  state.team.forEach(n=>{const d=document.createElement("div");d.className="team-card";d.textContent=({Freddy:"🐻 Freddy",Bonnie:"🐰 Bonnie",Chica:"🐥 Chica",Foxy:"🦊 Foxy"})[n];$("teamList").appendChild(d);});
+  save();
+ }
+ function earn(n,msg,id){state.coins+=n;message(id||"homeLog",msg+" (+"+n+" FazCoins)");render();}
+ function lose(n,msg,id){if(state.coins<n){message(id||"shopLog","Nicht genug FazCoins! Du hast "+state.coins+".");return false;}state.coins-=n;message(id||"shopLog",msg+" (-"+n+" FazCoins)");render();return true;}
+ function winFight(){state.wins++;state.level+= state.wins%3===0?1:0;earn(30,"Sieg! Du hast den Gegner besiegt. +Erfahrung.","battleLog");enemy.hp=0;render();}
+ function attack(name,damage){if(enemy.hp<=0){message("battleLog","Der Gegner ist besiegt. Tippe auf „Neuer Gegner“.");return;}const actual=Math.max(1,damage+state.power);enemy.hp=Math.max(0,enemy.hp-actual);if(enemy.hp===0){winFight();}else{message("battleLog",name+" verursacht "+actual+" Schaden! Der Gegner greift zurück.");}render();}
+ function newEnemy(){const enemies=[["Glitchling","👾",80],["Schatten-Bot","🤖",110],["Mini-Foxy","🦊",90],["Zirkusgeist","🎭",130],["Schlosswächter","👑",160]];const e=enemies[Math.floor(Math.random()*enemies.length)];enemy={name:e[0],icon:e[1],hp:e[2],max:e[2]};message("battleLog","Ein neuer Gegner erscheint: "+enemy.name+"!");render();}
+ function go(page){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));const target=$(page);if(target)target.classList.add("active");window.scrollTo(0,0);}
+ const actions={
+  fight:()=>{go("battle");message("battleLog","Ein Gegner springt hervor! Wähle deine Attacke.");},
+  attack:()=>attack("Angriff",20),
+  pizza:()=>attack("Pizza Roller",28),
+  cheese:()=>attack("Heißer Käse",24),
+  bonnieBass:()=>attack("Bonnie Bass",32),
+  foxyStorm:()=>attack("Foxy-Sturm",35),
+  heal:()=>{if(lose(10,"Dein Team wurde geheilt.","teamLog"))message("battleLog","Dein Team ist wieder fit!");},
+  newEnemy,
+  factoryReward:()=>earn(15,"Du findest nützliche Ersatzteile.","factoryLog"),
+  lakeReward:()=>earn(20,"Du findest einen Schatz am See.","lakeLog"),
+  villageReward:()=>earn(20,"Die Dorfbewohner bedanken sich für deine Hilfe.","villageLog"),
+  pizzaWin:()=>earn(25,"Richtig! Du hast die Käsepizza gefunden.","miniLog"),
+  pizzaWrong:()=>message("miniLog","Das war leider die falsche Pizza. Versuch es noch einmal."),
+  beatWin:()=>earn(35,"Beat getroffen! Bonnie ist begeistert.","miniLog"),
+  beatWrong:()=>message("miniLog","Das war nicht die richtige Richtung. Noch einmal!"),
+  boxWin:()=>earn(50,"Schatz gefunden! Foxy teilt die Belohnung.","miniLog"),
+  boxWrong:()=>message("miniLog","Diese Kiste ist leer. Versuch es erneut."),
+  boss:()=>{go("battle");enemy={name:"Glitch-König",icon:"👑",hp:180,max:180};message("battleLog","Bosskampf! Wähle deine stärkste Attacke.");render();}
+ };
+ document.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.go){go(b.dataset.go);return;}
+  if(b.dataset.action&&actions[b.dataset.action]){actions[b.dataset.action]();return;}
+  if(b.dataset.character){
+   const name=b.dataset.character;const i=state.team.indexOf(name);
+   if(i>=0){state.team.splice(i,1);message("teamLog",name+" wurde aus dem Team genommen.");}
+   else if(state.team.length<4){state.team.push(name);message("teamLog",name+" wurde ins Team aufgenommen.");}
+   else{message("teamLog","Dein Team ist voll. Entferne zuerst eine Figur.");}
+   render();return;
+  }
+  if(b.dataset.buy){
+   const type=b.dataset.buy;
+   if(type==="power"&&lose(40,"Kraft-Upgrade gekauft.","shopLog")){state.power++;message("shopLog","Kraft erhöht! Neues Level: "+state.power+".");}
+   else if(type==="level"&&lose(60,"Level-Training gekauft.","shopLog")){state.level++;message("shopLog","Level erhöht! Neues Level: "+state.level+".");}
+   else if(type==="heal"&&lose(25,"Team-Heilung gekauft.","shopLog")){message("shopLog","Dein Team wurde vollständig geheilt.");}
+   render();
+  }
+ });
+ render();
+})();
+</script>
+</body>
+</html>
