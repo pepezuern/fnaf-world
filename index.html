@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>FNaF World Touch 12.4 – Save & Map</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>🎮 FNaF World Touch 12.4</h1>
+    <div class="coins">
+      🪙 FazCoins: <span id="coins">55</span>
+    </div>
+    <div class="savebar">
+      <button class="btn" data-action="save-game">💾 Speichern</button><button class="btn"
+      data-action="load-game">📂 Laden</button><button class="btn" data-action="export-save">⬇️
+      Export</button><button class="btn" data-action="open-save-file">⬆️ Import</button><input id=
+      "saveFile" type="file" accept="application/json,.json" hidden="">
+    </div>
+  </header>
+  <main>
+    <section id="menu" class="panel active">
+      <h2>🗺️ Hauptmenü</h2>
+      <div class="grid">
+        <button class="btn" data-action="show" data-target="karte">🗺️ Karte</button><button class=
+        "btn" data-action="start-battle">⚔️ Kämpfen</button> <button class="btn"
+        data-action="show" data-target="team">🤖 Team & Level</button><button class="btn"
+        data-action="show" data-target="dorf">🏠 Dorf</button> <button class="btn" data-action=
+        "show" data-target="minigames">🎮 Minispiele</button><button class="btn" data-action="show"
+        data-target="shop">🛒 Shop</button>
+      </div>
+    </section>
+    <section id="karte" class="panel">
+      <h2>🗺️ Fazbear-Welt</h2>
+      <p class="maphint">Bewege dich mit W/A/S/D oder den Richtungstasten. Betritt einen markierten
+      Eingang oder drücke E/„Interagieren“ in seiner Nähe.</p>
+      <div class="mapframe">
+        <canvas id="worldMap" width="720" height="440" aria-label="Begehbare Weltkarte"></canvas>
+      </div>
+      <div class="dpad">
+        <span class="empty" aria-hidden="true">&#8203;</span>
+        <button class="btn" data-dir="up">⬆️</button><button class="btn" data-dir=
+        "left">⬅️</button><span class="empty" aria-hidden="true">&#8203;</span><button class="btn"
+        data-dir="down">⬇️</button><button class="btn"
+        data-dir="right">➡️</button>
+      </div>
+      <div class="grid">
+        <button class="btn" data-action="interact">🚪 Interagieren</button><button class="btn"
+        data-action="show" data-target="menu">🏠 Hauptmenü</button>
+      </div>
+      <h3>Orte</h3>
+      <div class="grid">
+        <button class="btn" data-action="start-battle" data-name="🌲 Wald-Kobold" data-hp="45"
+        data-damage="8" data-reward="20">🌲 Fazbear-Wald</button><button class="btn" data-action=
+        "show" data-target="dorf">🏠 Animatronic-Dorf</button> <button class="btn" data-action=
+        "start-battle" data-name="🏭 Fabrik-Drohne" data-hp="65" data-damage="11" data-reward="30">🏭
+        Fazbear-Fabrik</button><button class="btn" data-action="show" data-target="minigames">🎪
+        Mystery-Zirkus</button> <button class="btn" data-action="start-battle" data-name=
+        "🌊 See-Schleim" data-hp="55" data-damage="9" data-reward="25">🌊
+        Echo-See</button><button class="btn" data-action="start-battle" data-name="🏰 Glitch-Ritter"
+        data-hp="90" data-damage="14" data-reward="45">🏰 Glitch-Schloss</button>
+      </div><button class="btn back" data-action="show" data-target="menu">⬅️ Hauptmenü</button>
+    </section>
+    <section id="kampf" class="panel">
+      <h2>⚔️ Kampf</h2>
+      <div class="big" id="enemyEmoji">
+        👾
+      </div>
+      <h3 id="enemyName">Glitch-Gegner</h3>
+      <div>
+        Gegner-HP: <b id="enemyHpText">50 / 50</b>
+      </div>
+      <div class="bar">
+        <div class="fill" id="enemyBar"></div>
+      </div>
+      <div>
+        Team-HP: <b id="playerHpText">100 / 100</b>
+      </div>
+      <div class="bar">
+        <div id="playerBar" class="fill player-fill"></div>
+      </div>
+      <p class="small">Gegner greifen nach deinen Aktionen zurück. Stärkere Orte haben stärkere
+      Gegner.</p>
+      <div class="grid">
+        <button class="btn" data-action="attack" data-type="normal">💥
+        Angriff</button><button class="btn" data-action="attack" data-type="pizza">🍕 Pizza
+        Roller</button> <button class="btn" data-action="attack" data-type="cheese">🧀 Heißer
+        Käse</button><button class="btn" data-action="attack" data-type="bonnie">🎸 Bonnie
+        Bass</button> <button class="btn" data-action="attack" data-type="foxy">🦊
+        Foxy-Sturm</button><button class="btn" data-action="use-heal">❤️ Heilung (<span id=
+        "healCount">0</span>)</button>
+      </div>
+      <div id="battleStatus" class="status">
+        Wähle eine Attacke!
+      </div><button class="btn back" data-action="show" data-target="karte">⬅️ Zur Karte
+      fliehen</button>
+    </section>
+    <section id="kampfgewinn" class="panel">
+      <h2>🏆 Gegner besiegt!</h2>
+      <p id="winText">Du hast gewonnen!</p><button class="btn" data-action="show" data-target=
+      "karte">🗺️ Weiter</button>
+    </section>
+    <section id="gameover" class="panel">
+      <h2>💫 Team besiegt</h2>
+      <p>Der Gegner war zu stark. Du verlierst keine FazCoins.</p><button class="btn" data-action=
+      "start-battle">🔁 Nochmal kämpfen</button><button class="btn back" data-action=
+      "show" data-target="karte">⬅️ Zur Karte</button>
+    </section>
+    <section id="team" class="panel">
+      <h2>🤖 Team</h2>
+      <div class="grid">
+        <div class="card">
+          🐻<br>
+          <b>Freddy</b>
+        </div>
+        <div class="card">
+          🐰<br>
+          <b>Bonnie</b>
+        </div>
+        <div class="card">
+          🐥<br>
+          <b>Chica</b>
+        </div>
+        <div class="card">
+          🦊<br>
+          <b>Foxy</b>
+        </div>
+      </div>
+      <p>⭐ Level: <b id="lvl">1</b> | ⚡ Power: <b id="power">0</b> | 🛡️ Rüstung: <b id=
+      "armor">0</b></p><button class="btn back" data-action="show" data-target="menu">⬅️
+      Hauptmenü</button>
+    </section>
+    <section id="dorf" class="panel">
+      <h2>🏠 Animatronic-Dorf</h2>
+      <p>Bereite dich vor, kaufe Ausrüstung oder übe in den Minispielen.</p><button class="btn"
+      data-action="show" data-target="shop">🛒 Zum Shop</button><button class="btn back"
+      data-action="show" data-target="menu">⬅️ Hauptmenü</button>
+    </section>
+    <section id="minigames" class="panel">
+      <h2>🎮 Minispiele</h2>
+      <p>Die Minispiele haben mehrere Schritte. Fehler kosten einen Versuch!</p>
+      <div class="grid">
+        <button class="btn" data-action="start-pizza">🍕 Pizza-Reaktion</button><button class="btn"
+        data-action="start-beat">🎸 Bonnie-Beat</button><button class="btn" data-action=
+        "start-treasure">🦊 Foxy-Schatz</button>
+      </div>
+      <div id="miniStatus" class="status"></div>
+      <div id="miniArea"></div><button class="btn back" data-action="show" data-target="menu">⬅️
+      Hauptmenü</button>
+    </section>
+    <section id="shop" class="panel">
+      <h2>🛒 Fazbear-Shop</h2>
+      <p>Deine FazCoins: 🪙 <b id="shopCoins">55</b></p>
+      <div class="grid">
+        <button class="btn" data-action="buy" data-kind="power" data-cost="50">⚡ Power +1<br>
+        50 🪙</button><button class="btn" data-action="buy" data-kind="armor" data-cost="60">🛡️
+        Rüstung +1<br>
+        60 🪙</button><button class="btn" data-action="buy" data-kind="heal" data-cost="35">❤️
+        Heilung +1<br>
+        35 🪙</button>
+      </div>
+      <p class="small">Power erhöht Schaden. Rüstung verringert gegnerische Treffer.</p>
+      <div id="shopStatus" class="status"></div><button class="btn back" data-action="show"
+      data-target="menu">⬅️ Hauptmenü</button>
+    </section>
+  </main>
+  <script src="js/game.js" defer></script>
+</body>
+</html>
